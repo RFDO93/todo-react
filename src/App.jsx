@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import Footer from './components/Footer'
 import ListTodo from './components/ListTodo'
 import { FILTERS, listTODO } from './constant/constant'
@@ -6,9 +6,11 @@ import { FILTERS, listTODO } from './constant/constant'
 function App () {
   const [listTodo, setListTodo] = useState(listTODO)
   const [filter, setFilter] = useState(FILTERS.all)
+  const listTodoFilter = useRef(listTODO)
 
   const handleDestroy = (id) => {
     const newListTodo = listTodo.filter(todo => todo.id !== id)
+    listTodoFilter.current = newListTodo
     setListTodo(newListTodo)
   }
 
@@ -19,6 +21,7 @@ function App () {
       }
       return todo
     })
+    listTodoFilter.current = [...newListTodo]
     setListTodo([...newListTodo])
   }
 
@@ -27,17 +30,23 @@ function App () {
 
     switch (typeFilter) {
       case FILTERS.active:
-        newListTodo = listTODO.filter(todo => !todo.status)
+        newListTodo = listTodoFilter.current.filter(todo => !todo.status)
         break
       case FILTERS.completed:
-        newListTodo = listTODO.filter(todo => todo.status)
+        newListTodo = listTodoFilter.current.filter(todo => todo.status)
         break
       default:
-        newListTodo = listTODO
+        newListTodo = listTodoFilter.current
         break
     }
 
     setFilter(typeFilter)
+    setListTodo(newListTodo)
+  }
+
+  const handleRemoveComplete = () => {
+    const newListTodo = listTodo.filter(todo => !todo.status)
+    listTodoFilter.current = newListTodo
     setListTodo(newListTodo)
   }
 
@@ -55,6 +64,7 @@ function App () {
         numTodo={listTodo.length}
         filter={filter}
         handleFilter={handleFilter}
+        handleRemoveComplete={handleRemoveComplete}
       />
     </main>
   )
