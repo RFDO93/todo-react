@@ -15,3 +15,9 @@ export const listTODO = [
     status: false
   }
 ]
+
+export const FILTERS = {
+  all: 'all',
+  active: 'active',
+  completed: 'completed'
+}
