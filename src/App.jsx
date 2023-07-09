@@ -2,10 +2,12 @@ import { useState, useRef } from 'react'
 import Footer from './components/Footer'
 import ListTodo from './components/ListTodo'
 import { FILTERS, listTODO } from './constant/constant'
+import Header from './components/Header'
 
 function App () {
   const [listTodo, setListTodo] = useState(listTODO)
   const [filter, setFilter] = useState(FILTERS.all)
+  const [newTodo, setNewTodo] = useState()
   const listTodoFilter = useRef(listTODO)
 
   const handleDestroy = (id) => {
@@ -50,9 +52,16 @@ function App () {
     setListTodo(newListTodo)
   }
 
+  const handleChangeNewTodo = (todoString) => {
+    setNewTodo(todoString)
+  }
+
   return (
     <main className="todoapp">
-      <h1>TODO</h1>
+      <Header
+        newTodo={newTodo}
+        handleChangeNewTodo={handleChangeNewTodo}
+      />
       <section className="main">
         <ListTodo
           listTodo={listTodo}
