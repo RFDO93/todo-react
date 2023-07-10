@@ -11,8 +11,14 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+
+  filter: invert(1);
 }
 
 .todoapp > h1 {
   color:rgba(255, 255, 255, 0.87);
+}
+
+.edit {
+  color:#FFF
 }
