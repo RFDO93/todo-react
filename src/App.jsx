@@ -7,7 +7,7 @@ import Header from './components/Header'
 function App () {
   const [listTodo, setListTodo] = useState(listTODO)
   const [filter, setFilter] = useState(FILTERS.all)
-  const [newTodo, setNewTodo] = useState()
+  const [todoViewEdit, setTodoViewEdit] = useState()
   const listTodoFilter = useRef(listTODO)
 
   const handleDestroy = (id) => {
@@ -52,21 +52,34 @@ function App () {
     setListTodo(newListTodo)
   }
 
-  const handleChangeNewTodo = (todoString) => {
-    setNewTodo(todoString)
+  const handleCreateTodo = (newTodo) => {
+    if (!newTodo) {
+      return
+    }
+
+    const newListTodo = listTodoFilter.current
+
+    newListTodo.push({
+      id: crypto.randomUUID(),
+      title: newTodo,
+      status: false
+    })
+
+    setListTodo([...newListTodo])
+    listTodoFilter.current = [...newListTodo]
   }
 
   return (
     <main className="todoapp">
       <Header
-        newTodo={newTodo}
-        handleChangeNewTodo={handleChangeNewTodo}
+        createTodo={handleCreateTodo}
       />
       <section className="main">
         <ListTodo
           listTodo={listTodo}
           handleDestroy={handleDestroy}
           handleToggleStatus={handleToggleStatus}
+          todoViewEdit={todoViewEdit}
         />
       </section>
       <Footer

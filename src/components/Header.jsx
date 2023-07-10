@@ -1,13 +1,24 @@
 import PropTypes from 'prop-types'
+import { useState } from 'react'
 
-const Header = ({ newTodo, handleChangeNewTodo }) => {
+const Header = ({ createTodo }) => {
+  const [newTodo, setNewTodo] = useState('')
+
+  const handleCreateTodo = (e) => {
+    if (e.key === 'Enter') {
+      createTodo(newTodo)
+      setNewTodo('')
+    }
+  }
+
   return (
     <header className="header">
       <h1>TODO</h1>
       <input
         value={newTodo}
-        onChange={(text) => handleChangeNewTodo(text)}
+        onChange={(e) => setNewTodo(e.target.value)}
         className="new-todo"
+        onKeyDown={handleCreateTodo}
         placeholder="Ingresa un nuevo todo"
       />
     </header>
@@ -15,8 +26,7 @@ const Header = ({ newTodo, handleChangeNewTodo }) => {
 }
 
 Header.propTypes = {
-  newTodo: PropTypes.string,
-  handleChangeNewTodo: PropTypes.func
+  createTodo: PropTypes.func
 }
 
 export default Header

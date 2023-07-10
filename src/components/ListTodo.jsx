@@ -1,11 +1,14 @@
 import ItemTodo from './ItemTodo'
 import PropTypes from 'prop-types'
 
-const ListTodo = ({ listTodo, handleDestroy, handleToggleStatus }) => {
+const ListTodo = ({ listTodo, todoViewEdit, handleDestroy, handleToggleStatus }) => {
   return (
     <ul className='todo-list'>
       {listTodo.map((todoItem) => {
-        return <li key={`itemTodo-${todoItem.id}`} className={`${todoItem.status ? 'completed' : ''}`}>
+        return <li
+          key={`itemTodo-${todoItem.id}`}
+          className={`${todoItem.status ? 'completed' : ''} ${todoItem.id === todoViewEdit ? 'editing' : ''}`}
+        >
           <ItemTodo
             title={todoItem.title}
             id={todoItem.id}
@@ -21,6 +24,7 @@ const ListTodo = ({ listTodo, handleDestroy, handleToggleStatus }) => {
 
 ListTodo.propTypes = {
   listTodo: PropTypes.array,
+  todoViewEdit: PropTypes.string,
   handleDestroy: PropTypes.func,
   handleToggleStatus: PropTypes.func
 }
