@@ -1,7 +1,9 @@
-import ItemTodo from './ItemTodo'
 import PropTypes from 'prop-types'
+import ItemTodo from './ItemTodo'
+import { useAutoAnimate } from '@formkit/auto-animate/react'
 
 const ListTodo = ({ listTodo, todoViewEdit, handleDestroy, handleToggleStatus, clickEdit, funEditTodo }) => {
+  const [animationParent] = useAutoAnimate()
   const handleClickEdit = (event, id) => {
     if (event.detail === 2) {
       clickEdit(id)
@@ -9,7 +11,7 @@ const ListTodo = ({ listTodo, todoViewEdit, handleDestroy, handleToggleStatus, c
   }
 
   return (
-    <ul className='todo-list'>
+    <ul className='todo-list' ref={animationParent}>
       {listTodo.map((todoItem) => {
         return <li
           key={`itemTodo-${todoItem.id}`}
