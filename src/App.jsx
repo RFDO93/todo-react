@@ -7,7 +7,7 @@ import Header from './components/Header'
 function App () {
   const [listTodo, setListTodo] = useState(listTODO)
   const [filter, setFilter] = useState(FILTERS.all)
-  const [todoViewEdit, setTodoViewEdit] = useState()
+  const [todoViewEdit, setTodoViewEdit] = useState(null)
   const listTodoFilter = useRef(listTODO)
 
   const handleDestroy = (id) => {
@@ -69,6 +69,22 @@ function App () {
     listTodoFilter.current = [...newListTodo]
   }
 
+  const handleClickEdit = (id) => {
+    setTodoViewEdit(id)
+  }
+
+  const handleEditTodo = (newTodo) => {
+    const newListTodo = listTodo.map(todo => {
+      if (todo.id === newTodo.id) {
+        todo = newTodo
+      }
+      return todo
+    })
+    listTodoFilter.current = [...newListTodo]
+    setListTodo([...newListTodo])
+    setTodoViewEdit(null)
+  }
+
   return (
     <main className="todoapp">
       <Header
@@ -80,6 +96,8 @@ function App () {
           handleDestroy={handleDestroy}
           handleToggleStatus={handleToggleStatus}
           todoViewEdit={todoViewEdit}
+          clickEdit={handleClickEdit}
+          funEditTodo={handleEditTodo}
         />
       </section>
       <Footer

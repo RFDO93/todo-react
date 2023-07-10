@@ -1,15 +1,32 @@
 import PropTypes from 'prop-types'
+import { useState } from 'react'
 
-const ItemTodo = ({ id, title, status, handleDestroy, handleToggleStatus }) => {
+const ItemTodo = ({ id, title, status, handleDestroy, handleToggleStatus, funEditTodo }) => {
+  const [editTodo, setEditTodo] = useState(title)
+
+  const handleEditTodo = (e) => {
+    if (e.key === 'Enter' && editTodo) {
+      funEditTodo({
+        id,
+        title: editTodo,
+        status
+      })
+    }
+  }
+
   return (
     <>
       <div className='view'>
         <input className='toggle' type='checkbox' checked={status} value={status} onChange={handleToggleStatus} />
         <label>{title}</label>
         <button className='destroy' onClick={() => handleDestroy(id)}></button>
-
       </div>
-      <input className="edit" value={title} />
+      <input
+        className="edit"
+        value={editTodo}
+        onChange={(event) => setEditTodo(event.target.value)}
+        onKeyDown={handleEditTodo}
+      />
     </>
   )
 }
@@ -19,7 +36,8 @@ ItemTodo.propTypes = {
   title: PropTypes.string,
   status: PropTypes.bool,
   handleDestroy: PropTypes.func,
-  handleToggleStatus: PropTypes.func
+  handleToggleStatus: PropTypes.func,
+  funEditTodo: PropTypes.func
 }
 
 export default ItemTodo
