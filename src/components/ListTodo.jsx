@@ -1,9 +1,12 @@
-import PropTypes from 'prop-types'
-import ItemTodo from './ItemTodo'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
+import ItemTodo from './ItemTodo'
+import { useContext } from 'react'
+import { TodoContext } from '../context/TodoContext'
 
-const ListTodo = ({ listTodo, todoViewEdit, handleDestroy, handleToggleStatus, clickEdit, funEditTodo }) => {
+const ListTodo = () => {
+  const { listTodo, todoViewEdit, clickEdit } = useContext(TodoContext)
   const [animationParent] = useAutoAnimate()
+
   const handleClickEdit = (event, id) => {
     if (event.detail === 2) {
       clickEdit(id)
@@ -22,23 +25,11 @@ const ListTodo = ({ listTodo, todoViewEdit, handleDestroy, handleToggleStatus, c
             title={todoItem.title}
             id={todoItem.id}
             status={todoItem.status}
-            handleDestroy={handleDestroy}
-            handleToggleStatus={() => handleToggleStatus(todoItem.id)}
-            funEditTodo={funEditTodo}
           />
         </li>
       })}
     </ul>
   )
-}
-
-ListTodo.propTypes = {
-  listTodo: PropTypes.array,
-  todoViewEdit: PropTypes.string,
-  handleDestroy: PropTypes.func,
-  handleToggleStatus: PropTypes.func,
-  clickEdit: PropTypes.func,
-  funEditTodo: PropTypes.func
 }
 
 export default ListTodo

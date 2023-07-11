@@ -1,7 +1,9 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import PropTypes from 'prop-types'
+import { TodoContext } from '../context/TodoContext'
 
-const ItemTodo = ({ id, title, status, handleDestroy, handleToggleStatus, funEditTodo }) => {
+const ItemTodo = ({ id, title, status }) => {
+  const { functionToggleStatus, destroyTodo, funEditTodo } = useContext(TodoContext)
   const [editTodo, setEditTodo] = useState(title)
 
   const handleEditTodo = (e) => {
@@ -14,12 +16,20 @@ const ItemTodo = ({ id, title, status, handleDestroy, handleToggleStatus, funEdi
     }
   }
 
+  const handleDestroy = () => {
+    destroyTodo(id)
+  }
+
+  const handleToggleStatus = (event) => {
+    functionToggleStatus({ id, status: !status })
+  }
+
   return (
     <>
       <div className='view'>
         <input className='toggle' type='checkbox' checked={status} value={status} onChange={handleToggleStatus} />
         <label>{title}</label>
-        <button className='destroy' onClick={() => handleDestroy(id)}></button>
+        <button className='destroy' onClick={handleDestroy}></button>
       </div>
       <input
         className="edit"
@@ -34,10 +44,7 @@ const ItemTodo = ({ id, title, status, handleDestroy, handleToggleStatus, funEdi
 ItemTodo.propTypes = {
   id: PropTypes.string,
   title: PropTypes.string,
-  status: PropTypes.bool,
-  handleDestroy: PropTypes.func,
-  handleToggleStatus: PropTypes.func,
-  funEditTodo: PropTypes.func
+  status: PropTypes.bool
 }
 
 export default ItemTodo

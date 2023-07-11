@@ -1,7 +1,10 @@
-import PropTypes from 'prop-types'
+import { useContext } from 'react'
 import { FILTERS } from '../constant/constant'
+import { TodoContext } from '../context/TodoContext'
 
-const Footer = ({ filter, numTodo, handleFilter, handleRemoveComplete }) => {
+const Footer = () => {
+  const { filter, numTodo, handleFilter, handleRemoveComplete } = useContext(TodoContext)
+
   return (
     <div className="footer">
       <span className="todo-count">
@@ -33,13 +36,6 @@ const Footer = ({ filter, numTodo, handleFilter, handleRemoveComplete }) => {
       <button className='clear-completed' onClick={handleRemoveComplete}>Eliminar completado</button>
     </div>
   )
-}
-
-Footer.propTypes = {
-  filter: PropTypes.string,
-  numTodo: PropTypes.number,
-  handleFilter: PropTypes.func,
-  handleRemoveComplete: PropTypes.func
 }
 
 export default Footer

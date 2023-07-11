@@ -1,8 +1,9 @@
-import PropTypes from 'prop-types'
-import { useState } from 'react'
+import { useState, useContext } from 'react'
+import { TodoContext } from '../context/TodoContext'
 
-const Header = ({ createTodo }) => {
+const Header = () => {
   const [newTodo, setNewTodo] = useState('')
+  const { createTodo } = useContext(TodoContext)
 
   const handleCreateTodo = (e) => {
     if (e.key === 'Enter') {
@@ -23,10 +24,6 @@ const Header = ({ createTodo }) => {
       />
     </header>
   )
-}
-
-Header.propTypes = {
-  createTodo: PropTypes.func
 }
 
 export default Header
